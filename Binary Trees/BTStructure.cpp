@@ -8,8 +8,7 @@ class Node{
     Node* left;
     Node* right;
     //constructor function for the node
-    Node(int val)
-    {
+    Node(int val){
         data = val;
         left = NULL;
         right = NULL;
@@ -193,8 +192,18 @@ int diameterBT(Node* root){
 }
 
 
+//need to figure out the optimised approach
 int optimisedDiameterBT(Node* root, int* height){
-    
+    if(root == NULL){
+        *height = 0;
+        return 0;
+    }
+    int leftHeight = 0;int rightHeight = 0;
+    int leftDiameter = optimisedDiameterBT(root->left,&leftHeight);
+    int rightDiameter = optimisedDiameterBT(root->right,&rightHeight);
+    int currDiameter = 1 + leftHeight + rightHeight;
+    *height = 1 + max(leftHeight,rightHeight);
+    return max(currDiameter, max(leftDiameter,rightDiameter));
 }
 
 
@@ -227,6 +236,6 @@ int main()
     cout<<"Nodes in a binary tree: " << countNodes(root) << endl;
     cout<<"Height of a binary tree: "<< heightBT(root) << endl;
     cout<<"Sum of a binary tree: " << sumBT(root) << endl;
-    cout<<"Diameter of a binary tree: " << diameterBT(root) << endl;
+    cout<<"Diameter of a binary tree: " << optimisedDiameterBT(root,) << endl;
     return 0;
 }
