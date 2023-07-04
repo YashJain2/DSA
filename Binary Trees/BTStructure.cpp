@@ -166,6 +166,38 @@ int heightBT(Node* root){
     return max(leftHeight,rightHeight);
 }
 
+//Sum of binary Tree
+int sumBT(Node* root){
+    if(root == NULL){
+        return 0;
+    }
+    return root->data + sumBT(root->left) + sumBT(root->right);
+}
+
+//diameter of binary tree
+// We have to consider two cases
+//Case-I: node is present in the diamter
+//Case-II: Diameter is consisting only of left subtree or right subtree
+int diameterBT(Node* root){
+    if(root == NULL){
+        return 0;
+    }
+    int leftHeight = heightBT(root->left);
+    int rightHeight = heightBT(root->right);
+
+    int currDiameter = 1 + leftHeight + rightHeight;
+
+    int leftDiameter = diameterBT(root->left);
+    int rightDiameter = diameterBT(root->right);
+    return max(currDiameter,max(leftDiameter,rightDiameter));
+}
+
+
+int optimisedDiameterBT(Node* root, int* height){
+    
+}
+
+
 int main()
 {
     // Binary tree
@@ -194,5 +226,7 @@ int main()
     cout<<"Kth Level Sum of Binary Tree: " << KTHLevelSum(root,3) << endl;
     cout<<"Nodes in a binary tree: " << countNodes(root) << endl;
     cout<<"Height of a binary tree: "<< heightBT(root) << endl;
+    cout<<"Sum of a binary tree: " << sumBT(root) << endl;
+    cout<<"Diameter of a binary tree: " << diameterBT(root) << endl;
     return 0;
 }
