@@ -207,6 +207,19 @@ int optimisedDiameterBT(Node* root, int* height){
 }
 
 
+//Lowest common ancestor in binary tree
+Node* lca(Node*root, Node*p, Node*q){
+    if(root == NULL || root->data == p->data || root->data == q->data){
+        return root;
+    }
+    Node* left = lca(root->left, p, q);
+    Node* right = lca(root->right, p, q);
+    if(left == NULL) return right;
+    else if (right == NULL) return left;
+    else return root;
+}
+
+
 int main()
 {
     // Binary tree
@@ -236,6 +249,10 @@ int main()
     cout<<"Nodes in a binary tree: " << countNodes(root) << endl;
     cout<<"Height of a binary tree: "<< heightBT(root) << endl;
     cout<<"Sum of a binary tree: " << sumBT(root) << endl;
-    cout<<"Diameter of a binary tree: " << optimisedDiameterBT(root,) << endl;
+    cout<<"Diameter of a binary tree: " <<diameterBT(root) << endl;
+    Node* p = new Node(1);
+    Node* q = new Node(5);
+    Node* lcaNode = lca(root, p, q);
+    cout<<"Lowest Common Ancestor: " << lcaNode->data <<endl;
     return 0;
 }
