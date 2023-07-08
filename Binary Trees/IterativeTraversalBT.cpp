@@ -34,6 +34,32 @@ vector<int> preorder(Node* root){
     return ans;
 }
 
+//iterative inorder traversal using stack
+vector<int> inorder(Node* root){
+    vector<int> ans;
+    if(root == NULL){
+        return ans;
+    }
+    stack<Node*> st;
+    while(true){
+        while(root){
+            st.push(root);
+            root = root -> left;
+        }
+        if(st.empty()){
+            return ans;
+        }
+        else{
+            Node* node = st.top();
+            st.pop();
+            ans.push_back(node->data);
+            root = node -> right;
+        }
+        
+    }
+    return ans;
+}
+
 //iterative postorder using 2 stacks
 void postorder(Node* root){
     if(root == NULL){
@@ -106,7 +132,7 @@ int main()
     root->right->left = new Node(6);
     root->right->right = new Node(7);
     // postorder(root);
-    vector<int> ans = preorder(root);
+    vector<int> ans = inorder(root);
     for(auto& i: ans){
         cout<<i<<" ";
     }
