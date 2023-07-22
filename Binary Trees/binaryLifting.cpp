@@ -16,24 +16,46 @@ class Node{
     }
 };
 
+class TreeAncestor {
+    vector<vector<int> > P; // P[i][node] :::: [node] 's [2^i]th parent
+    
+public:
+    TreeAncestor(int n, vector<int>& parent) {
+       // initialize
+        P.resize(20, vector<int>(parent.size(), -1));
+        
+        // 2^0
+        for(int i = 0; i < parent.size(); i++){
+            P[0][i] = parent[i];
+        }
+        
+        // 2^i using binary lifting
+        for(int i = 1; i < 20; i++){
+            for(int node = 0; node < parent.size(); node ++){
+                int nodep = P[i-1][node];
+                if(nodep != -1) P[i][node] = P[i-1][nodep];
+            }
+        }
+    }
+    
+    int getKthAncestor(int node, int k) {
+        for(int i = 0; i < 20; i++){
+            if(k & (1 << i)){
+                node = P[i][node];
+                if(node == -1) return -1;
+            }
+        }
+        return node;
+    }
+};
+
+/**
+ * Your TreeAncestor object will be instantiated and called as such:
+ * TreeAncestor* obj = new TreeAncestor(n, parent);
+ * int param_1 = obj->getKthAncestor(node,k);
+ */
 
 int main()
 {
-    // Binary search tree
-        /*
-            4
-          /   \
-        2       7
-      /   \    /  \
-     1     3  5    8
-    */
-    Node *root = new Node(4);
-
-    root->left = new Node(2);
-    root->right = new Node(7);
-    root->left->left = new Node(1);
-    root->left->right = new Node(3);
-    root->right->right = new Node(8);
-    cout<<"LCA in BST: " << solve(root,8,5)->data;
     return 0;
 }
